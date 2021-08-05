@@ -10,8 +10,7 @@ class App extends Component
    
     this.state={
       items:[],
-      loading:false,
-      age:[]
+      loading:false
     }
       this.handleChange = this.handleChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,36 +21,32 @@ class App extends Component
   handleSubmit(event) {
     alert('A name was submitted: ' + this.state.value);
     event.preventDefault();
-  }
-  componentDidMount(){
-    var value = 4;
-    let inputStyle = {
-      backgroundColor:""
-    };
-   
-    fetch(`https://randomuser.me/api?results=${value}`)
+    fetch(`https://randomuser.me/api?results=${this.state.value}`)
     .then((response)=>
       response.json())
     .then((response)=>{
-      let name=response.results.map((person)=>{
-        let age=person.dob.age;
+      // let name=response.results.map((person)=>{
+      //   let age=person.dob.age;
         
 
       this.setState({
         items:response.results,
-        loading:true,
-        age:age
+        loading:true
       })
+      console.log(response.results.dob);
     })
-    })
+  
+  }
+  componentDidMount(){
     
   }
   render(){
-    var {age,items,loading}=this.state;
+    var {items,loading}=this.state;
+    console.log(items);
     let inputStyle = {
       backgroundColor:""
     };
-  
+  console.log(age);
     if(age >=0 && age<=18) {
       inputStyle = {
         backgroundColor:"blue"
