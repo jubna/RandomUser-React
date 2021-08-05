@@ -5,12 +5,10 @@ class App extends Component
 {
   constructor(props){
     super(props)
-    // this.state = {value: ''};
-
+   
    
     this.state={
-      items:[],
-      loading:false
+      items:[]
     }
       this.handleChange = this.handleChange.bind(this);
      this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,21 +17,17 @@ class App extends Component
     this.setState({value: event.target.value});
   }
   handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
+   
     event.preventDefault();
     fetch(`https://randomuser.me/api?results=${this.state.value}`)
     .then((response)=>
       response.json())
     .then((response)=>{
-      // let name=response.results.map((person)=>{
-      //   let age=person.dob.age;
-        
 
       this.setState({
-        items:response.results,
-        loading:true
+        items:response.results
       })
-      console.log(response.results.dob);
+     
     })
   
   }
@@ -41,36 +35,13 @@ class App extends Component
     
   }
   render(){
-    var {items,loading}=this.state;
-    console.log(items);
-    let inputStyle = {
-      backgroundColor:""
-    };
-  console.log(age);
-    if(age >=0 && age<=18) {
-      inputStyle = {
-        backgroundColor:"blue"
-      }
+    var {items}=this.state;
   
-    }
-    else if(age>=19 && age<=36){
-      inputStyle = {
-        backgroundColor:"green"
-      }
-    
-    }
-    else{
-      inputStyle = {
-        backgroundColor:"red"
-      }
-      
-    }
-       
-
   
  
     return(
       <div className="container">
+        <h1>Random User Generator</h1>
         <form onSubmit={this.handleSubmit}>
         <label>
           Number of Users: 
@@ -79,14 +50,15 @@ class App extends Component
         </label>
         <input type="submit" value="Submit"/>
       </form>
-        {items.map(item=>(<div className="card" style={inputStyle} >
-           <div class="card-body">
-        <h5 className="card-title">{item.name.first}{item.name.last}</h5> 
-        <p class="card-text"  id="age">{item.dob.age}</p>
+        {items.map(item=>(<div className="card" style={item.dob.age>0&&item.dob.age<=18?{backgroundColor:"blue"}:item.dob.age>18&&item.dob.age<36?{backgroundColor:"green"}:{backgroundColor:"red"}} >
+           <div className="card-body">
+        <h5 className="card-title">Name: {item.name.first} {item.name.last}</h5> 
+        <p className="card-text"  id="age">Age:{item.dob.age}</p>
         </div>
         </div>))}
       </div>
     )
-  }
+  
+}
 }
 export default App;
